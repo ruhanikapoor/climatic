@@ -4,42 +4,57 @@ import { fetchWeatherData } from "./services/weatherService";
 import RainVideo from "./video/rain.mp4";
 import SunnyVideo from "./video/sunny.mp4";
 import FogVideo from "./video/fog.mp4";
+import SnowVideo from "./video/snow.mp4";
+import SandVideo from "./video/sand.mp4";
+import TornadoVideo from "./video/tornado.mp4";
 
 const App = () => {
   const [weatherData, setWeatherData] = useState(null);
   const [error, setError] = useState(null);
+  const [videoSource, setVideoSource] = useState(SunnyVideo);
 
   const handleSearch = async (cityName) => {
     setError(null);
     try {
       const data = await fetchWeatherData(cityName);
       setWeatherData(data);
+      changeBackgroundVideo(data.weather[0].id);
     } catch (err) {
       setError("Unable to fetch weather data. Please try again.");
       setWeatherData(null);
     }
   };
 
-  const getBackgroundVideo = () => {
-    if (!weatherData) return SunnyVideo;
-
-    const weatherCondition = weatherData.weather[0].description;
-
-    if(weatherCondition === 'mist' || weatherCondition === 'fog' || weatherCondition === 'haze'){
-      return FogVideo
+  const changeBackgroundVideo = (weatherCondition) => {
+    if(weatherCondition >= 200 && weatherCondition <= 531 ){
+      setVideoSource(RainVideo)
     }
 
-    else if(weatherCondition === 'rain' || weatherCondition === 'drizzle' || weatherCondition === 'thunderstorm'){
-      return RainVideo
+    if(weatherCondition >= 600 && weatherCondition <= 622 ){
+      setVideoSource(SnowVideo)
     }
 
-    return SunnyVideo
-  };
+    else if(weatherCondition >= 701 && weatherCondition <= 741 ){
+      setVideoSource(FogVideo)
+    }
+
+    else if(weatherCondition >= 751 && weatherCondition <= 762 ){
+      setVideoSource(SandVideo)
+    }
+
+    else if (weatherCondition >= 771 && weatherCondition <= 781 ){
+      setVideoSource(TornadoVideo)
+    }
+
+    else{
+      setVideoSource(SunnyVideo)
+    }
+  }
 
   return (
     <div className="app-container">
-      <video autoPlay loop muted className="bg-vid">
-        <source src={getBackgroundVideo()} type="video/mp4" />
+      <video key={videoSource} autoPlay loop muted className="bg-vid">
+        <source src={videoSource} type="video/mp4" />
       </video>
       <div className="content">
         <div className="header">
@@ -53,7 +68,7 @@ const App = () => {
 
             <div className="card-division">
               <div className="info-card">
-              <div>{weatherData.weather[0].description}</div>
+              <div>{weatherData.weather[0].main}</div>
               <img
                 src={`http://openweathermap.org/img/wn/${weatherData.weather[0].icon}@2x.png`}
                 alt="weather icon"
@@ -75,8 +90,6 @@ const App = () => {
               <p>Humidity: {weatherData.main.humidity}%</p>
             </div>
             </div>
-            {console.log(weatherData.weather[0].description)}
-            
           </div>
         )}
       </div>
