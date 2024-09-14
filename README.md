@@ -1,8 +1,15 @@
-# React + Vite
+# Climatic - Weather Forecast App
 
-This template provides a minimal setup to get React working in Vite with HMR and some ESLint rules.
+Climatic is a weather forecast application built with React. It fetches real-time weather data from the OpenWeatherMap API and dynamically changes the background video based on the current weather conditions.
 
-Currently, two official plugins are available:
+## Features
+- Search for weather information by city name.
 
-- [@vitejs/plugin-react](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react/README.md) uses [Babel](https://babeljs.io/) for Fast Refresh
-- [@vitejs/plugin-react-swc](https://github.com/vitejs/vite-plugin-react-swc) uses [SWC](https://swc.rs/) for Fast Refresh
+- Displays weather details such as temperature, humidity, and weather description.
+
+- Background video changes based on the weather condition.
+
+- Fully responsive design.
+
+## Try it here
+[Climatic](https://climatic-weatherapp.netlify.app/)
