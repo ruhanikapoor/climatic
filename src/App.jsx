@@ -1,7 +1,9 @@
 import React, { useState } from "react";
 import SearchBar from "./components/SearchBar";
 import { fetchWeatherData } from "./services/weatherService";
-import BgVideo from "./video/vid-bg.mp4";
+import RainVideo from "./video/rain.mp4";
+import SunnyVideo from "./video/sunny.mp4";
+import FogVideo from "./video/fog.mp4";
 
 const App = () => {
   const [weatherData, setWeatherData] = useState(null);
@@ -17,10 +19,27 @@ const App = () => {
       setWeatherData(null);
     }
   };
+
+  const getBackgroundVideo = () => {
+    if (!weatherData) return SunnyVideo;
+
+    const weatherCondition = weatherData.weather[0].description;
+
+    if(weatherCondition === 'mist' || weatherCondition === 'fog' || weatherCondition === 'haze'){
+      return FogVideo
+    }
+
+    else if(weatherCondition === 'rain' || weatherCondition === 'drizzle' || weatherCondition === 'thunderstorm'){
+      return RainVideo
+    }
+
+    return SunnyVideo
+  };
+
   return (
     <div className="app-container">
       <video autoPlay loop muted className="bg-vid">
-        <source src={BgVideo} type="video/mp4" />
+        <source src={getBackgroundVideo()} type="video/mp4" />
       </video>
       <div className="content">
         <div className="header">
@@ -56,7 +75,7 @@ const App = () => {
               <p>Humidity: {weatherData.main.humidity}%</p>
             </div>
             </div>
-            
+            {console.log(weatherData.weather[0].description)}
             
           </div>
         )}
