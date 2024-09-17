@@ -30,7 +30,7 @@ const App = () => {
       setVideoSource(RainVideo)
     }
 
-    if(weatherCondition >= 600 && weatherCondition <= 622 ){
+    else if(weatherCondition >= 600 && weatherCondition <= 622 ){
       setVideoSource(SnowVideo)
     }
 
